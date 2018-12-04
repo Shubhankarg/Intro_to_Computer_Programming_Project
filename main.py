@@ -1,28 +1,8 @@
-# this file was created by Chris Cozort
+# this file was created by Shubhankar Gaur 
 # Sources: goo.gl/2KMivS - thanks Chris Bradfield!
+#Also, Mr. Cozort's code (which I copy-pasted to learn + catch up)
 # now available in github
 
-'''
-Curious, Creative, Tenacious(requires hopefulness)
-
-**********Gameplay ideas:
-Jump on enemy head to create jump boost using power up code
-Randomize jump sound
-
-**********Cosmetics
-Change hero images (5 images), platforms, clouds, enemies(2 images), bg image?
-
-**********Bugs
-when you get launched by powerup or head jump player sometimes snaps to platform abruptly 
-happens when hitting jump during power up boost
-
-**********Gameplay fixes
-Platform randomness leaves player in limbo for extended periods
-Lower spawn location so player can get out of random stuck situations
-
-**********Features
-Varied powerups
-'''
 import pygame as pg
 import random
 from settings import *
