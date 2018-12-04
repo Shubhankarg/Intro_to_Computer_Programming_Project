@@ -1,7 +1,10 @@
 # this file was created by Shubhankar Gaur 
 # Sources: goo.gl/2KMivS - thanks Chris Bradfield!
-#Also, Mr. Cozort's code (which I copy-pasted to learn + catch up)
-# now available in github
+#Also, most of this is Mr. Cozort's code (which I copy-pasted to learn + catch up)
+
+#changes: changed background music
+#change jump noise
+
 
 import pygame as pg
 import random
@@ -51,10 +54,10 @@ class Game:
         # load sounds
         # great place for creating sounds: https://www.bfxr.net/
         self.snd_dir = path.join(self.dir, 'snd')
-        self.jump_sound = [pg.mixer.Sound(path.join(self.snd_dir, 'Jump18.wav')),
-                            pg.mixer.Sound(path.join(self.snd_dir, 'Jump24.wav'))]
-        self.boost_sound = pg.mixer.Sound(path.join(self.snd_dir, 'Jump29.wav'))
-        self.head_jump_sound = pg.mixer.Sound(path.join(self.snd_dir, 'Jump39.wav'))
+        self.jump_sound = [pg.mixer.Sound(path.join(self.snd_dir, 'Jump1.wav')),
+                            pg.mixer.Sound(path.join(self.snd_dir, 'Jump2.wav'))]
+        self.boost_sound = pg.mixer.Sound(path.join(self.snd_dir, 'Jump3.wav'))
+        self.head_jump_sound = pg.mixer.Sound(path.join(self.snd_dir, 'Jump3.wav'))
     ##### NEW METHOD
     def new(self):
         self.score = 0
@@ -91,7 +94,7 @@ class Game:
             c = Cloud(self)
             c.rect.y += 500
         # load music
-        pg.mixer.music.load(path.join(self.snd_dir, 'happy.ogg'))
+        pg.mixer.music.load(path.join(self.snd_dir, 'WillPhillips.ogg'))
         # call the run method
         self.run()
     def run(self):
