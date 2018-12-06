@@ -49,8 +49,7 @@ class Game:
         self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET)) 
         #load cloud images
         self.cloud_images = []
-        for i in range(1,4):
-            self.cloud_images.append(pg.image.load(path.join(img_dir, 'cloud{}.png'.format(i))).convert())
+        self.cloud_images.append(pg.image.load(path.join(img_dir, 'cloud1.png'.format(1))).convert())
         # load sounds
         # great place for creating sounds: https://www.bfxr.net/
         self.snd_dir = path.join(self.dir, 'snd')
@@ -235,7 +234,7 @@ class Game:
                         self.paused = True
     ##### DRAW METHOD
     def draw(self):
-        self.screen.fill(SKY_BLUE)
+        self.screen.fill(WHITE)
         self.all_sprites.draw(self.screen)
         """ # not needed now that we're using LayeredUpdates """
         # self.screen.blit(self.player.image, self.player.rect)

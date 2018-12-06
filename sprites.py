@@ -159,7 +159,7 @@ class Cloud(Sprite):
         scale = randrange (50, 101) / 100
         self.image = pg.transform.scale(self.image, (int(self.rect.width * scale), 
                                                      int(self.rect.height * scale)))
-        self.rect.x = randrange(WIDTH - self.rect.width)
+        self.rect.x = randrange(WIDTH)
         self.rect.y = randrange(-500, -50)
         self.speed = randrange(1,3)
     def update(self):
@@ -178,8 +178,8 @@ class Platform(Sprite):
         self.groups = game.all_sprites, game.platforms
         Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet.get_image(0, 288, 380, 94), 
-                  self.game.spritesheet.get_image(213, 1662, 201, 100)]
+        images = [self.game.spritesheet.get_image(0, 576, 380, 94), 
+                  self.game.spritesheet.get_image(218, 1456, 201, 100)]
         self.image = random.choice(images)
         self.image.set_colorkey(BLACK)
         '''leftovers from random rectangles before images'''
