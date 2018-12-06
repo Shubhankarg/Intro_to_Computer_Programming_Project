@@ -72,6 +72,7 @@ class Game:
         self.clouds = pg.sprite.Group()
         # add powerups
         self.powerups = pg.sprite.Group()
+        self.rightpowerup = pg.sprite.Group()
         # add cacti
         self.cacti = pg.sprite.Group()
         
@@ -180,6 +181,12 @@ class Game:
             if pow.type == 'boost':
                 self.boost_sound.play()
                 self.player.vel.y = -BOOST_POWER
+                self.player.jumping = False
+        right_pow_hits = pg.sprite.spritecollide(self.player, self.rightpowerup, True)
+        for pow in right_pow_hits:
+            if pow.type == 'rightboost':
+                self.boost_sound.play()
+                self.player.vel.x = RIGHT_POWER
                 self.player.jumping = False
         cacti_hits = pg.sprite.spritecollide(self.player, self.cacti, False)
         if cacti_hits:    

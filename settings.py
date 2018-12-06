@@ -18,10 +18,13 @@ HS_FILE = "highscore.txt"
 PLAYER_ACC = 0.5
 PLAYER_FRICTION = -0.12
 PLAYER_GRAV = 0.8
-PLAYER_JUMP = 20
+PLAYER_JUMP = 25
 # game settings
 BOOST_POWER = 60
-POW_SPAWN_PCT = 7
+RIGHT_POWER = 300
+POW_SPAWN_PCT = 15
+RIGHT_SPAWN_PCT = 15
+
 MOB_FREQ = 500
 # layers - uses numerical value in layered sprites
 PLAYER_LAYER = 2

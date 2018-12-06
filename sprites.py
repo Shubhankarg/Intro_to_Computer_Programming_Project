@@ -46,20 +46,20 @@ class Player(Sprite):
         self.acc = vec(0, 0)
         print("adding vecs " + str(self.vel + self.acc))
     def load_images(self):
-        self.standing_frames = [self.game.spritesheet.get_image(690, 406, 120, 201),
-                                self.game.spritesheet.get_image(614, 1063, 120, 191)
+        self.standing_frames = [self.game.spritesheet.get_image(568, 1671, 122, 139),
+                                self.game.spritesheet.get_image(707, 0, 120, 132)
                                 ]
         for frame in self.standing_frames:
             frame.set_colorkey(BLACK)
-        self.walk_frames_r = [self.game.spritesheet.get_image(678, 860, 120, 201),
-                                self.game.spritesheet.get_image(692, 1458, 120, 207)
+        self.walk_frames_r = [self.game.spritesheet.get_image(566, 510, 122, 139),
+                                self.game.spritesheet.get_image(692, 1667, 120, 132)
                                 ]
         '''setup left frames by flipping and appending them into an empty list'''
         self.walk_frames_l = []
         for frame in self.walk_frames_r:
             frame.set_colorkey(BLACK)
             self.walk_frames_l.append(pg.transform.flip(frame, True, False))
-        self.jump_frame = self.game.spritesheet.get_image(382, 763, 150, 181)
+        self.jump_frame = self.game.spritesheet.get_image(568, 1534, 122, 135)
         self.jump_frame.set_colorkey(BLACK)
     def update(self):
         self.animate()
@@ -193,6 +193,8 @@ class Platform(Sprite):
             Pow(self.game, self)
         if random.randrange(100) < POW_SPAWN_PCT:
             Cactus(self.game, self)
+        if random.randrange(100) < POW_SPAWN_PCT:
+            RightPow(self.game, self)
         
 class Pow(Sprite):
     def __init__(self, game, plat):
@@ -214,6 +216,24 @@ class Pow(Sprite):
         # checks to see if plat is in the game's platforms group so we can kill the powerup instance
         if not self.game.platforms.has(self.plat):
             self.kill()
+class RightPow(Sprite):
+    def __init__(self, game, plat):
+        # allows layering in LayeredUpdates sprite group
+        self._layer = POW_LAYER
+        # add a groups property where we can pass all instances of this object into game groups
+        self.groups = game.all_sprites, game.rightpowerup
+        Sprite.__init__(self, self.groups)
+        self.game = game
+        self.plat = plat
+        self.type = random.choice(['rightboost'])
+        self.image = self.game.spritesheet.get_image(826, 134, 71, 70)
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = self.plat.rect.centerx
+        self.rect.bottom = self.plat.rect.top - 5
+    def update(self):
+        self.rect.bottom = self.plat.rect.top - 5
+        # checks to see if plat is in the game's platforms group so we can kill the powerup instance
 class Mob(Sprite):
     def __init__(self, game):
         # allows layering in LayeredUpdates sprite group
