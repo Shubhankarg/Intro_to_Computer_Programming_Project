@@ -71,7 +71,7 @@ class Game:
         self.clouds = pg.sprite.Group()
         # add powerups
         self.powerups = pg.sprite.Group()
-        self.rightpowerup = pg.sprite.Group()
+        self.rightpowerup = pg.sprite.Group()   
         # add cacti
         self.cacti = pg.sprite.Group()
         
@@ -234,7 +234,7 @@ class Game:
                         self.paused = True
     ##### DRAW METHOD
     def draw(self):
-        self.screen.fill(WHITE)
+        self.screen.fill(SKY_BLUE)
         self.all_sprites.draw(self.screen)
         """ # not needed now that we're using LayeredUpdates """
         # self.screen.blit(self.player.image, self.player.rect)
