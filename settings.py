@@ -22,8 +22,8 @@ PLAYER_JUMP = 25
 # game settings
 BOOST_POWER = 60
 RIGHT_POWER = 300
-POW_SPAWN_PCT = 15
-RIGHT_SPAWN_PCT = 15
+POW_SPAWN_PCT = 7
+RIGHT_SPAWN_PCT = 7
 
 MOB_FREQ = 500
 # layers - uses numerical value in layered sprites
