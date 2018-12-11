@@ -1,9 +1,20 @@
 # this file was created by Shubhankar Gaur 
-# Sources: goo.gl/2KMivS - thanks Chris Bradfield!
-#Also, most of this is Mr. Cozort's code (which I copy-pasted to learn + catch up)
+# # Sources: goo.gl/2KMivS - thanks Chris Bradfield!
+#Also, most of this is Mr. Cozort's code (which I copy-pasted to learn + catch up) 
+# but I still gained a fundamental knowledge of the material by changing both gameplay and visual aspects
 
-#changes: changed background music
-#change jump noise
+#changes: changed background music 
+#changed clouds 
+# changed image transparency
+#changed background color, 
+# changed player sprite image and animations
+# added a new powerup that flings you left or right when contacted
+#changed player jump height to eliminate need for enemy RNG
+#changed jump sounds
+#changed powerup icon 
+#changed platform attribute
+#made cactus fling you downwards
+#added "S" key to go downwards to strategically hit enemy
 
 
 import pygame as pg
@@ -193,6 +204,7 @@ class Game:
                     print("falling")
                     print("player is " + str(self.player.pos.y))
                     print("mob is " + str(cacti_hits[0].rect.top))
+                    self.player.vel.y = 100
         # Die!
         if self.player.rect.bottom > HEIGHT:
             '''make all sprites fall up when player falls'''
@@ -232,6 +244,7 @@ class Game:
                     if event.key == pg.K_p:
                         """ pause """
                         self.paused = True
+
     ##### DRAW METHOD
     def draw(self):
         self.screen.fill(SKY_BLUE)

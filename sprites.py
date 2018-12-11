@@ -72,6 +72,8 @@ class Player(Sprite):
             self.acc.x =  -PLAYER_ACC
         if keys[pg.K_d]:
             self.acc.x = PLAYER_ACC
+        if keys[pg.K_s]:
+            self.vel.y =  10
         # set player friction
         self.acc.x += self.vel.x * PLAYER_FRICTION
         # equations of motion
