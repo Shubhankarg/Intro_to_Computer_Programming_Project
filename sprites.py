@@ -155,17 +155,15 @@ class Cloud(Sprite):
         self.image = pg.transform.scale(self.image, (int(self.rect.width * scale), 
                                                      int(self.rect.height * scale)))
         self.rect.x = randrange(WIDTH)
-        self.rect.y = randrange(-500, -50)
-        self.speed = randrange(1,3)
+        self.rect.y = randrange(-300, -50)
+        #limit cloud height
+        self.speed = randrange(1,4)
     def update(self):
         if self.rect.top > HEIGHT * 2: 
             self.kill
             ''' mr cozort added animated clouds and made it so they 
             restart on the other side of the screen'''
         self.rect.x += self.speed
-        if self.rect.left > WIDTH + 100 or self.rect.right < -100:
-            self.kill()
-        #just kill all the clouds that are too big!
 class Platform(Sprite):
     def __init__(self, game, x, y):
         # allows layering in LayeredUpdates sprite group
