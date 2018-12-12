@@ -64,8 +64,6 @@ class Player(Sprite):
     def update(self):
         self.animate()
         self.acc = vec(0, PLAYER_GRAV)
-        # print("acc " + str(self.acc))
-        # print("vel " + str(self.vel))
 
         keys = pg.key.get_pressed()
         if keys[pg.K_a]:
@@ -76,7 +74,7 @@ class Player(Sprite):
             self.vel.y =  10
         # set player friction
         self.acc.x += self.vel.x * PLAYER_FRICTION
-        # equations of motion
+        # equations of motion- PHYSICS YAY
         self.vel += self.acc
         if abs(self.vel.x) < 0.1:
             self.vel.x = 0
@@ -88,13 +86,8 @@ class Player(Sprite):
             self.pos.x = WIDTH + self.rect.width / 2
 
         self.rect.midbottom = self.pos
-    # cuts the jump short when the space bar is released
-    def jump_cut(self):
-        if self.jumping:
-            if self.vel.y < -5:
-                self.vel.y = -5
+   #took out cutting jump
     def jump(self):
-        print("jump is working")
         # check pixel below
         self.rect.y += 2
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -170,8 +163,9 @@ class Cloud(Sprite):
             ''' mr cozort added animated clouds and made it so they 
             restart on the other side of the screen'''
         self.rect.x += self.speed
-        if self.rect.x > WIDTH:
-            self.rect.x = -self.rect.width
+        if self.rect.left > WIDTH + 100 or self.rect.right < -100:
+            self.kill()
+        #just kill all the clouds that are too big!
 class Platform(Sprite):
     def __init__(self, game, x, y):
         # allows layering in LayeredUpdates sprite group
@@ -215,27 +209,27 @@ class Pow(Sprite):
         self.rect.bottom = self.plat.rect.top - 5
     def update(self):
         self.rect.bottom = self.plat.rect.top - 5
-        # checks to see if plat is in the game's platforms group so we can kill the powerup instance
         if not self.game.platforms.has(self.plat):
             self.kill()
 class RightPow(Sprite):
+    #added a new powerup!
     def __init__(self, game, plat):
-        # allows layering in LayeredUpdates sprite group
         self._layer = POW_LAYER
-        # add a groups property where we can pass all instances of this object into game groups
         self.groups = game.all_sprites, game.rightpowerup
         Sprite.__init__(self, self.groups)
         self.game = game
         self.plat = plat
         self.type = random.choice(['rightboost'])
         self.image = self.game.spritesheet.get_image(826, 134, 71, 70)
+        #powerup image
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = self.plat.rect.centerx
         self.rect.bottom = self.plat.rect.top - 5
     def update(self):
         self.rect.bottom = self.plat.rect.top - 5
-        # checks to see if plat is in the game's platforms group so we can kill the powerup instance
+        if not self.game.platforms.has(self.plat):
+            self.kill()
 class Mob(Sprite):
     def __init__(self, game):
         # allows layering in LayeredUpdates sprite group
@@ -277,6 +271,7 @@ class Mob(Sprite):
         self.rect.y += self.vy
         if self.rect.left > WIDTH + 100 or self.rect.right < -100:
             self.kill()
+
 class Cactus(Sprite):
     def __init__(self, game, plat):
         # allows layering in LayeredUpdates sprite group

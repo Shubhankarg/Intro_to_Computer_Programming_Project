@@ -3,18 +3,27 @@
 #Also, most of this is Mr. Cozort's code (which I copy-pasted to learn + catch up) 
 # but I still gained a fundamental knowledge of the material by changing both gameplay and visual aspects
 
-#changes: changed background music 
-#changed clouds 
-# changed image transparency
-#changed background color, 
-# changed player sprite image and animations
-# added a new powerup that flings you left or right when contacted
-#changed player jump height to eliminate need for enemy RNG
-#changed jump sounds
-#changed powerup icon 
-#changed platform attribute
-#made cactus fling you downwards
-#added "S" key to go downwards to strategically hit enemy
+'''changes: changed background music 
+changed clouds 
+changed image transparency
+changed background color, 
+changed player sprite image and animations
+added a new powerup that flings you left or right when contacted
+changed player jump height to eliminate need for enemy RNG
+changed jump sounds
+changed powerup icon 
+changed platform attribute
+made cactus fling you downwards
+added "S" key to go downwards to strategically hit enemy, rather than letting go of spacebar for more control'''
+
+''' bugs: 
+Sometimes, hitting a powerup while still causes the game to end.
+Cactus only spikes you down at certain angles because of how the platform works
+Rightpow sometimes causes you to phase through a platform
+Powerups cluster up when you die- FIXED!
+If S is held as you die while falling down, the game gets stuck in a loop :(
+Clouds too big, picture not transparent- FIXED!
+'''
 
 
 import pygame as pg
@@ -24,7 +33,7 @@ from sprites import *
 from os import path
 
 class Game:
-    ##### INIT METHOD
+    #INIT METHOD
     def __init__(self):
         #init game window
         # init pygame and create window
@@ -32,8 +41,9 @@ class Game:
         # init sound mixer
         pg.mixer.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
-        pg.display.set_caption("jumpy")
+        pg.display.set_caption("Take the L")
         self.clock = pg.time.Clock()
+        #using the clock to pace the game
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
@@ -62,7 +72,6 @@ class Game:
         self.cloud_images = []
         self.cloud_images.append(pg.image.load(path.join(img_dir, 'cloud1.png'.format(1))).convert())
         # load sounds
-        # great place for creating sounds: https://www.bfxr.net/
         self.snd_dir = path.join(self.dir, 'snd')
         self.jump_sound = [pg.mixer.Sound(path.join(self.snd_dir, 'Jump1.wav')),
                             pg.mixer.Sound(path.join(self.snd_dir, 'Jump2.wav'))]
@@ -149,7 +158,7 @@ class Game:
                 print("mob is " + str(mob_hits[0].rect.top))
                 self.playing = False
         # check to see if player can jump - if falling
-        if self.player.vel.y > 0:
+        if self.player.vel.y >= 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
                 ''' set var to be current hit in list to find which to 'pop' to 
@@ -192,27 +201,29 @@ class Game:
                 self.boost_sound.play()
                 self.player.vel.y = -BOOST_POWER
                 self.player.jumping = False
+                #changes velocity after hitting vertical boost
         right_pow_hits = pg.sprite.spritecollide(self.player, self.rightpowerup, True)
         for pow in right_pow_hits:
             if pow.type == 'rightboost':
                 self.boost_sound.play()
                 self.player.vel.x = RIGHT_POWER
                 self.player.jumping = False
+                #essentially, this flings you right when you touch the powerup.
         cacti_hits = pg.sprite.spritecollide(self.player, self.cacti, False)
         if cacti_hits:    
             if self.player.vel.y > 0 and self.player.pos.y > cacti_hits[0].rect.top:
-                    print("falling")
-                    print("player is " + str(self.player.pos.y))
                     print("mob is " + str(cacti_hits[0].rect.top))
                     self.player.vel.y = 100
+                    #this one causes the cactus to spike you down
         # Die!
         if self.player.rect.bottom > HEIGHT:
             '''make all sprites fall up when player falls'''
             for sprite in self.all_sprites:
                 sprite.rect.y -= max(self.player.vel.y, 10)
                 '''get rid of sprites as they fall up'''
-                if sprite.rect.bottom < -25:
+                if sprite.rect.bottom < -30:
                     sprite.kill()
+                #this one kills you when you hit the bottom.
         if len(self.platforms) == 0:
             self.playing = False
         # generate new random platforms
@@ -237,14 +248,9 @@ class Game:
                     if event.key == pg.K_SPACE:
                         self.player.jump()
                 if event.type == pg.KEYUP:
-                    if event.key == pg.K_SPACE:
-                        """ # cuts the jump short if the space bar is released """
-                        self.player.jump_cut()
-                if event.type == pg.KEYUP:
                     if event.key == pg.K_p:
                         """ pause """
                         self.paused = True
-
     ##### DRAW METHOD
     def draw(self):
         self.screen.fill(SKY_BLUE)
